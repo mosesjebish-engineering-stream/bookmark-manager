@@ -1,4 +1,12 @@
 language: java
+
+services:
+  - docker
+
+script:
+  - docker build -f docker/Dockerfile -t bookmark-manager:1.0 .
+  - docker push mosesjebish/bookmark-manager:1.0
+
 env:
   global:
     - CODECOV_TOKEN="17389c33-dcda-4c09-8087-9a82341add46"
