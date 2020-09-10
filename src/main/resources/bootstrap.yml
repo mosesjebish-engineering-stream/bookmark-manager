@@ -17,10 +17,6 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:5443/eureka/
 
-server:
-  tomcat:
-    basedir: ./
-
 management:
   endpoints:
     web:

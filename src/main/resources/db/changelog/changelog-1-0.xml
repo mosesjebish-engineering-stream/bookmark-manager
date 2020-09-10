@@ -1,4 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="create-card-table" author="Jebish Moses">
+        <createTable tableName="t_card_details">
+            <column name="id" type="int"/>
+            <column name="short_url" type="varchar(255)"/>
+            <column name="long_url" type="varchar(255)"/>
+            <column name="user" type="varchar(255)"/>
+            <column name="tribe" type="varchar(255)"/>
+            <column name="application" type="varchar(255)"/>
+            <column name="platform" type="varchar(255)"/>
+            <column name="description" type="varchar(255)"/>
+            <column name="group_name" type="varchar(255)"/>
+
+        </createTable>
+        <createSequence
+                incrementBy="1"
+                maxValue="10000"
+                minValue="1"
+                sequenceName="card_detail_seq_id"/>
+        <addPrimaryKey
+                        columnNames="id"
+                        constraintName="pk_card_details"
+                        tableName="t_card_details"/>
+    </changeSet>
+
+    <changeSet id="alter-card-table" author="Jebish Moses">
+        <modifyDataType tableName="t_card_details" columnName="short_url" newDataType="varchar(50)"/>
+        <modifyDataType tableName="t_card_details" columnName="user" newDataType="varchar(50)"/>
+        <modifyDataType tableName="t_card_details" columnName="tribe" newDataType="varchar(50)"/>
+        <modifyDataType tableName="t_card_details" columnName="application" newDataType="varchar(50)"/>
+        <modifyDataType tableName="t_card_details" columnName="platform" newDataType="varchar(50)"/>
+        <modifyDataType tableName="t_card_details" columnName="group_name" newDataType="varchar(50)"/>
+    </changeSet>
+
+    <changeSet id="alter-user-id" author="Jebish Moses">
+        <dropColumn tableName="t_card_details" columnName="user"/>
+        <addColumn tableName="t_card_details" >
+            <column name="user_id" type="varchar(100)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="create-group-table" author="Jebish Moses">
+        <createTable tableName="t_group_details">
+        <column name="id" type="int"/>
+        <column name="group_name" type="varchar(50)"/>
+        <column name="created_by" type="varchar(50)"/>
+        <column name="admin_list" type="jsonb"/>
+        </createTable>
+        <createSequence
+                incrementBy="1"
+                maxValue="10000"
+                minValue="1"
+                sequenceName="group_detail_seq_id"/>
+        <addPrimaryKey
+                columnNames="id"
+                constraintName="pk_group_details"
+                tableName="t_group_details"/>
+        <dropColumn tableName="t_card_details" columnName="group_name"/>
+        <addColumn tableName="t_card_details">
+            <column name="group_details" type="jsonb"/>
+            <column name="user_details" type="jsonb"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>
