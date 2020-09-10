@@ -27,4 +27,6 @@ public class CardDetailDto {
     private Boolean approved;
 
     private List<GroupDetailDto> groupDetailInfo;
+
+    private List<UserInfoDto> userInfoDetails;
 }

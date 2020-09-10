@@ -67,4 +67,10 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="add-approved-column" author="Jebish Moses">
+        <addColumn tableName="t_card_details">
+            <column name="approved" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

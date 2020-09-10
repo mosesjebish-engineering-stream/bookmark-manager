@@ -3,6 +3,7 @@ package com.mosesjebish.bookmarkmanager.service;
 import com.mosesjebish.bookmarkmanager.dto.CardDetailDto;
 import com.mosesjebish.bookmarkmanager.dto.GroupDetailDto;
 import com.mosesjebish.bookmarkmanager.enums.TypesEnum;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
@@ -19,30 +20,31 @@ public class CardDetailHelper {
             return resultDtos.stream().collect(groupingBy(CardDetailDto::getTribe));
         }
         if (groupBy.equalsIgnoreCase(TypesEnum.GROUP_NAME.name())) {
-            Map<String, List<CardDetailDto>> finalMap = map;
 
             groupDetailDtos.forEach(aGroup -> {
-                finalMap.put(aGroup.getGroupName(), new ArrayList<CardDetailDto>());
+                map.put(aGroup.getGroupName(), new ArrayList<>());
             });
 
 
             resultDtos.forEach(aDto -> {
-                        aDto.getGroupDetailInfo().forEach(aGroup -> {
-                            if (finalMap.containsKey(aGroup.getGroupName())) {
-                                List<CardDetailDto> listOfAppCards = finalMap.get(aGroup.getGroupName());
-                                listOfAppCards.add(aDto);
-                                finalMap.put(aGroup.getGroupName(), listOfAppCards);
-                            } else {
-                                List<CardDetailDto> cards = new ArrayList<>(); //create a new list if this group has no existing mapping
-                                cards.add(aDto);
-                                finalMap.put(aGroup.getGroupName(), cards);
-                            }
-                        });
+                        if (!CollectionUtils.isEmpty(aDto.getGroupDetailInfo())) {
+                            aDto.getGroupDetailInfo().forEach(aGroup -> {
+                                if (map.containsKey(aGroup.getGroupName())) {
+                                    List<CardDetailDto> listOfAppCards = map.get(aGroup.getGroupName());
+                                    listOfAppCards.add(aDto);
+                                    map.put(aGroup.getGroupName(), listOfAppCards);
+                                } else {
+                                    List<CardDetailDto> cards = new ArrayList<>(); //create a new list if this group has no existing mapping
+                                    cards.add(aDto);
+                                    map.put(aGroup.getGroupName(), cards);
+                                }
+                            });
+                        }
                     }
 
             );
 
-            return finalMap;
+            return map;
         }
         if (groupBy.equalsIgnoreCase(TypesEnum.USER.name())) {
             return resultDtos.stream().collect(groupingBy(CardDetailDto::getUserId));

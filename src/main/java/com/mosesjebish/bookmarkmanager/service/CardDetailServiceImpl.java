@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.stream.Collectors.groupingBy;
 
@@ -34,25 +32,42 @@ public class CardDetailServiceImpl implements CardDetailService {
 
     @Override
     public List<CardDetailDto> persist(List<CardDetailDto> cardDetailDtos) {
+
+        List<GroupDetailDto> groupDetailDtos = groupDetailService.fetchAllGroups();
+
+        cardDetailDtos = GroupDetailHelper.enrichCardsWithGroupDetails(cardDetailDtos, groupDetailDtos);
+
         List<CardDetailEntity> entities = mapper.mapDtosToEntities(cardDetailDtos);
         return mapper.mapEntityToDtos(Lists.newArrayList(dao.saveAll(entities)));
     }
 
     @Override
     public List<CardDetailDto> fetchAllCards() {
-        return mapper.mapEntityToDtos(Lists.newArrayList(dao.findAll()));
+        List<GroupDetailDto> groupDetailDtos = groupDetailService.fetchAllGroups();
+
+        List<CardDetailDto> cardDetailDtos = mapper.mapEntityToDtos(Lists.newArrayList(dao.findAll()));
+
+        cardDetailDtos = GroupDetailHelper.enrichCardsWithGroupDetails(cardDetailDtos, groupDetailDtos);
+
+        return cardDetailDtos;
     }
 
     @Override
     public List<CardDetailDto> fetchApprovedCards(Boolean approved) {
-        return mapper.mapEntityToDtos(Lists.newArrayList(dao.findAllByApproved(approved)));
+        List<GroupDetailDto> groupDetailDtos = groupDetailService.fetchAllGroups();
+
+        List<CardDetailDto> cardDetailDtos = mapper.mapEntityToDtos(Lists.newArrayList(dao.findAllByApproved(approved)));
+
+        cardDetailDtos = GroupDetailHelper.enrichCardsWithGroupDetails(cardDetailDtos, groupDetailDtos);
+
+        return cardDetailDtos;
     }
 
     @Override
     public Map<String, List<CardDetailDto>> fetchCardsByGroup(String groupBy) {
-        List<CardDetailDto> resultDtos = fetchAllCards();
+        List<CardDetailDto> resultDtos = fetchApprovedCards(true);
         List<GroupDetailDto> groupDetailDtos = groupDetailService.fetchAllGroups();
-        Map<String, List<CardDetailDto>> map = CardDetailHelper.processCardsByGroup(groupBy, resultDtos,groupDetailDtos);
+        Map<String, List<CardDetailDto>> map = CardDetailHelper.processCardsByGroup(groupBy, resultDtos, groupDetailDtos);
 
         if (CollectionUtils.isEmpty(map)) {
             return Collections.emptyMap();

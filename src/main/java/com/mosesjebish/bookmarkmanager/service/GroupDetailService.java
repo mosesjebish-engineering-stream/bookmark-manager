@@ -8,4 +8,6 @@ public interface GroupDetailService {
     List<GroupDetailDto> fetchAllGroups();
 
     List<GroupDetailDto> persist(List<GroupDetailDto> groupDetails);
+
+    GroupDetailDto findByGroupName(String groupName);
 }

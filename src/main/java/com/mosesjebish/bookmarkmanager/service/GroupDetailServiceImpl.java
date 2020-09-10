@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -32,5 +33,16 @@ public class GroupDetailServiceImpl implements GroupDetailService {
     public List<GroupDetailDto> persist(List<GroupDetailDto> groupDetails) {
         Iterable<GroupDetailEntity> entities = mapper.mapDtosToEntities(groupDetails);
         return mapper.mapEntitiesToDtos(Lists.newArrayList(dao.saveAll(entities)));
+    }
+
+    @Override
+    public GroupDetailDto findByGroupName(String groupName) {
+        Optional<GroupDetailEntity> entityOptional = dao.findByGroupName(groupName);
+
+        if (entityOptional.isEmpty()) {
+            return null;
+        }
+
+        return mapper.mapEntityToDto(entityOptional.get());
     }
 }

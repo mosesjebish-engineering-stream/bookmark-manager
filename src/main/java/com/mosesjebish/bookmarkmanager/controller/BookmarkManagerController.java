@@ -1,9 +1,6 @@
 package com.mosesjebish.bookmarkmanager.controller;
 
-import com.mosesjebish.bookmarkmanager.dto.CardDetailDto;
-import com.mosesjebish.bookmarkmanager.dto.CardDetailsResponseDto;
-import com.mosesjebish.bookmarkmanager.dto.GroupCardDetailsResponseDto;
-import com.mosesjebish.bookmarkmanager.dto.GroupDetailDto;
+import com.mosesjebish.bookmarkmanager.dto.*;
 import com.mosesjebish.bookmarkmanager.service.CardDetailService;
 import com.mosesjebish.bookmarkmanager.service.GroupDetailService;
 import com.mosesjebish.bookmarkmanager.service.URLShortener;
@@ -74,8 +71,16 @@ public class BookmarkManagerController {
     @GetMapping("/fetchGroups")
     @ApiResponse(responseCode = "200", description = "Fetches Groups", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class)))
     @ApiResponse(responseCode = "500", description = "Internal Error")
-    public ResponseEntity<String> fetchGroups() {
-        return new ResponseEntity<>("Shortly you will receive the created groups through this end point :)", HttpStatus.OK);
+    public ResponseEntity<GroupDetailsResponseDto> fetchGroups() {
+        List<GroupDetailDto> detailDtos = groupDetailService.fetchAllGroups();
+
+        if (CollectionUtils.isEmpty(detailDtos)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        GroupDetailsResponseDto responseDto = new GroupDetailsResponseDto();
+        responseDto.setGroupDetailDtoList(detailDtos);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @PostMapping("/createCard")
@@ -92,10 +97,16 @@ public class BookmarkManagerController {
     }
 
     @PostMapping("/createGroup")
-    @ApiResponse(responseCode = "200", description = "Creates Groups", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class)))
+    @ApiResponse(responseCode = "200", description = "Creates Groups", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GroupDetailsResponseDto.class)))
     @ApiResponse(responseCode = "500", description = "Internal Error")
-    public ResponseEntity<String> createGroup(@RequestBody List<GroupDetailDto> groupDetails) {
+    public ResponseEntity<GroupDetailsResponseDto> createGroup(@RequestBody List<GroupDetailDto> groupDetails) {
+        if (CollectionUtils.isEmpty(groupDetails)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         List<GroupDetailDto> groupDetailDtos = groupDetailService.persist(groupDetails);
-        return new ResponseEntity<>("Shortly you will be able to create groups through this end point :)", HttpStatus.OK);
+        GroupDetailsResponseDto groupResponse = new GroupDetailsResponseDto();
+        groupResponse.setGroupDetailDtoList(groupDetailDtos);
+
+        return new ResponseEntity<>(groupResponse, HttpStatus.OK);
     }
 }
