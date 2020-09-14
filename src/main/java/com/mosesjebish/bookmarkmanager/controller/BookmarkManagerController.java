@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class BookmarkManagerController {
         this.groupDetailService = groupDetailService;
     }
 
-    @GetMapping("/fetchAllCards")
+    @GetMapping("/cards")
     @ApiResponse(responseCode = "200", description = "Fetches Cards", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CardDetailsResponseDto.class)))
     @ApiResponse(responseCode = "500", description = "Internal Error")
     public ResponseEntity<CardDetailsResponseDto> fetchAllCards() {
@@ -44,7 +45,7 @@ public class BookmarkManagerController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    @GetMapping("/fetchCardsGroupBy")
+    @GetMapping("/groupCardsBy")
     @ApiResponse(responseCode = "200", description = "Fetches a map of Group along with its corresponding card details", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CardDetailsResponseDto.class)))
     @ApiResponse(responseCode = "500", description = "Internal Error")
     public ResponseEntity<GroupCardDetailsResponseDto> fetchCardsGroupBy(@RequestParam(value = "groupBy") String groupBy) {

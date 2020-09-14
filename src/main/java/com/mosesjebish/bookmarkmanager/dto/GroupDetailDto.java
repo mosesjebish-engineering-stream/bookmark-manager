@@ -17,6 +17,4 @@ public class GroupDetailDto {
 
     private List<String> adminInfoList;
 
-    private List<CardDetailDto> cardDetailInfo;
-
 }
