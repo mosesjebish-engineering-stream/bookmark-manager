@@ -5,6 +5,7 @@ import com.mosesjebish.bookmarkmanager.dao.GroupDetailDao;
 import com.mosesjebish.bookmarkmanager.dto.GroupDetailDto;
 import com.mosesjebish.bookmarkmanager.entity.GroupDetailEntity;
 import com.mosesjebish.bookmarkmanager.mapper.GroupDetailMapper;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,12 +16,11 @@ import java.util.Optional;
 @Transactional
 public class GroupDetailServiceImpl implements GroupDetailService {
 
-    private final GroupDetailMapper mapper;
+    private GroupDetailMapper mapper = Mappers.getMapper(GroupDetailMapper.class);
 
     private final GroupDetailDao dao;
 
-    public GroupDetailServiceImpl(GroupDetailMapper mapper, GroupDetailDao dao) {
-        this.mapper = mapper;
+    public GroupDetailServiceImpl(GroupDetailDao dao) {
         this.dao = dao;
     }
 
