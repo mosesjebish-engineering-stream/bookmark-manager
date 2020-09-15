@@ -38,6 +38,6 @@ public class CardDetailServiceImplTest {
 
     @Test
     public void when_fetchAllCards(){
-        Assert.assertEquals(0,0);
+        Assert.assertEquals(1,1);
     }
 }
