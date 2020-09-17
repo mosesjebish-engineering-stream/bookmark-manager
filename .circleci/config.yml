@@ -47,4 +47,4 @@ jobs:
           path: target/classes
           destination: bookmark-manager
       - codecov/upload:
-          file: target/site/jacoco.xml
+          file: target/site/jacoco/jacoco.xml
