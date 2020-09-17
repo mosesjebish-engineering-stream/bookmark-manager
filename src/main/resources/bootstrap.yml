@@ -1,11 +1,18 @@
 spring:
   application:
     name: bookmark-manager
+  zipkin:
+    base-url: http://localhost:9411/zipkin/
   cloud:
     config:
       enabled: true
-      uri: http://localhost:6443
+      uri: http://52.224.22.87:6443
       fail-fast: true
+  sleuth:
+    enabled: true
+    sampler:
+      percentage: 1
+
 
 jasypt:
   encryptor:
@@ -15,7 +22,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: false
     serviceUrl:
-      defaultZone: http://localhost:5443/eureka/
+      defaultZone: http://40.76.145.40:5443/eureka/
 
 management:
   endpoints:

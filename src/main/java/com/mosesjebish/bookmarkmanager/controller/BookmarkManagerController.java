@@ -61,9 +61,12 @@ public class BookmarkManagerController {
     @GetMapping("shortenUrl")
     @ApiResponse(responseCode = "200", description = "Fetches Cards", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "Internal Error")
-    public ResponseEntity<String> shortenUrl(@RequestParam(value = "url") String url, @RequestParam(value = "type") String type) {
+    public ResponseEntity<UrlDto> shortenUrl(@RequestParam(value = "url") String url, @RequestParam(value = "type") String type) {
         URLShortener u = new URLShortener(5, "www.mosesjebish.com/" + type);
-        return new ResponseEntity<>(u.shortenURL(url), HttpStatus.OK);
+        UrlDto urlDto = new UrlDto();
+        urlDto.setLongUrl(url);
+        urlDto.setShortUrl(u.shortenURL(url));
+        return new ResponseEntity<>(urlDto, HttpStatus.OK);
     }
 
     @GetMapping("/fetchGroups")
