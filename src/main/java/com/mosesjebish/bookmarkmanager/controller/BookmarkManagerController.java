@@ -4,9 +4,6 @@ import com.mosesjebish.bookmarkmanager.dto.*;
 import com.mosesjebish.bookmarkmanager.service.CardDetailService;
 import com.mosesjebish.bookmarkmanager.service.GroupDetailService;
 import com.mosesjebish.bookmarkmanager.service.URLShortener;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
@@ -30,8 +27,8 @@ public class BookmarkManagerController {
     }
 
     @GetMapping("/cards")
-    @ApiResponse(responseCode = "200", description = "Fetches Cards", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CardDetailsResponseDto.class)))
-    @ApiResponse(responseCode = "500", description = "Internal Error")
+/*    @ApiResponse(responseCode = "200", description = "Fetches Cards", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CardDetailsResponseDto.class)))
+    @ApiResponse(responseCode = "500", description = "Internal Error")*/
     public ResponseEntity<CardDetailsResponseDto> fetchAllCards() {
         List<CardDetailDto> resultDtos = cardDetailService.fetchApprovedCards(true);
         if (CollectionUtils.isEmpty(resultDtos)) {
@@ -43,8 +40,8 @@ public class BookmarkManagerController {
     }
 
     @GetMapping("/groupCardsBy")
-    @ApiResponse(responseCode = "200", description = "Fetches a map of Group along with its corresponding card details", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CardDetailsResponseDto.class)))
-    @ApiResponse(responseCode = "500", description = "Internal Error")
+/*    @ApiResponse(responseCode = "200", description = "Fetches a map of Group along with its corresponding card details", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CardDetailsResponseDto.class)))
+    @ApiResponse(responseCode = "500", description = "Internal Error")*/
     public ResponseEntity<GroupCardDetailsResponseDto> fetchCardsGroupBy(@RequestParam(value = "groupBy") String groupBy) {
 
         Map<String, List<CardDetailDto>> map = cardDetailService.fetchCardsByGroup(groupBy);
@@ -59,8 +56,8 @@ public class BookmarkManagerController {
     }
 
     @GetMapping("shortenUrl")
-    @ApiResponse(responseCode = "200", description = "Fetches Cards", content = @Content(mediaType = "application/json"))
-    @ApiResponse(responseCode = "500", description = "Internal Error")
+/*    @ApiResponse(responseCode = "200", description = "Fetches Cards", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "500", description = "Internal Error")*/
     public ResponseEntity<UrlDto> shortenUrl(@RequestParam(value = "url") String url, @RequestParam(value = "type") String type) {
         URLShortener u = new URLShortener(5, "www.mosesjebish.com/" + type);
         UrlDto urlDto = new UrlDto();
@@ -70,8 +67,8 @@ public class BookmarkManagerController {
     }
 
     @GetMapping("/fetchGroups")
-    @ApiResponse(responseCode = "200", description = "Fetches Groups", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class)))
-    @ApiResponse(responseCode = "500", description = "Internal Error")
+/*    @ApiResponse(responseCode = "200", description = "Fetches Groups", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class)))
+    @ApiResponse(responseCode = "500", description = "Internal Error")*/
     public ResponseEntity<GroupDetailsResponseDto> fetchGroups() {
         List<GroupDetailDto> detailDtos = groupDetailService.fetchAllGroups();
 
@@ -85,8 +82,8 @@ public class BookmarkManagerController {
     }
 
     @PostMapping("/createCard")
-    @ApiResponse(responseCode = "200", description = "Creates Cards", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CardDetailsResponseDto.class)))
-    @ApiResponse(responseCode = "500", description = "Internal Error")
+/*    @ApiResponse(responseCode = "200", description = "Creates Cards", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CardDetailsResponseDto.class)))
+    @ApiResponse(responseCode = "500", description = "Internal Error")*/
     public ResponseEntity<CardDetailsResponseDto> createCard(@RequestBody List<CardDetailDto> cardDetailDtos) {
         List<CardDetailDto> resultDtos = cardDetailService.persist(cardDetailDtos);
         if (CollectionUtils.isEmpty(resultDtos)) {
@@ -98,8 +95,8 @@ public class BookmarkManagerController {
     }
 
     @PostMapping("/createGroup")
-    @ApiResponse(responseCode = "200", description = "Creates Groups", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GroupDetailsResponseDto.class)))
-    @ApiResponse(responseCode = "500", description = "Internal Error")
+/*    @ApiResponse(responseCode = "200", description = "Creates Groups", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GroupDetailsResponseDto.class)))
+    @ApiResponse(responseCode = "500", description = "Internal Error")*/
     public ResponseEntity<GroupDetailsResponseDto> createGroup(@RequestBody List<GroupDetailDto> groupDetails) {
         if (CollectionUtils.isEmpty(groupDetails)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

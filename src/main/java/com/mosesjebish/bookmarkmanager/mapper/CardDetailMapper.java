@@ -7,7 +7,6 @@ import com.mosesjebish.bookmarkmanager.dto.CardDetailDto;
 import com.mosesjebish.bookmarkmanager.dto.GroupDetailDto;
 import com.mosesjebish.bookmarkmanager.dto.UserInfoDto;
 import com.mosesjebish.bookmarkmanager.entity.CardDetailEntity;
-import org.checkerframework.checker.compilermsgs.qual.CompilerMessageKey;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
