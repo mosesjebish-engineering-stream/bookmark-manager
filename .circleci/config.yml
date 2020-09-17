@@ -47,5 +47,5 @@ jobs:
           path: target/classes
           destination: bookmark-manager
       - codecov/upload:
-          file: ./target/jacoco.exec
+          file: target/site/jacoco/jacoco.xml
           token: 17389c33-dcda-4c09-8087-9a82341add46
