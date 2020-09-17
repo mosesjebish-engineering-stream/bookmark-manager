@@ -46,5 +46,8 @@ jobs:
       - store_artifacts:
           path: target/classes
           destination: bookmark-manager
+      - run: mvn test
+      - store_artifacts:
+          path: target
       - codecov/upload:
           file: target/my-reports/jacoco.xml
