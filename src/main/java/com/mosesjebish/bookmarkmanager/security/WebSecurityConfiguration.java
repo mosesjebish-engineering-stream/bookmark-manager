@@ -1,3 +1,4 @@
+/*
 package com.mosesjebish.bookmarkmanager.security;
 
 import org.springframework.context.annotation.Configuration;
@@ -12,4 +13,4 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/swagger-ui/**", "/v3/api-docs/**");
     }
 
-}
+}*/

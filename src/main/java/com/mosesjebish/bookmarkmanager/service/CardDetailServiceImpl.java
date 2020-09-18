@@ -33,6 +33,11 @@ public class CardDetailServiceImpl implements CardDetailService {
     @Override
     public List<CardDetailDto> persist(List<CardDetailDto> cardDetailDtos) {
 
+        cardDetailDtos.forEach(aCardDto -> {
+            URLShortener u = new URLShortener(5, "www.mosesjebish.com/card");
+            aCardDto.setShortUrl(u.shortenURL(aCardDto.getLongUrl()));
+        });
+
         List<GroupDetailDto> groupDetailDtos = groupDetailService.fetchAllGroups();
 
         cardDetailDtos = GroupDetailHelper.enrichCardsWithGroupDetails(cardDetailDtos, groupDetailDtos);
