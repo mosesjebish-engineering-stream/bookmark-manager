@@ -1,0 +1,20 @@
+components:
+  securitySchemes:
+    oAuthSample:    # <---- arbitrary name
+      type: oauth2
+      description: This API uses OAuth 2 with the implicit grant flow. [More info](https://api.example.com/docs/auth)
+      flows:
+        implicit:   # <---- OAuth flow(authorizationCode, implicit, password or clientCredentials)
+          authorizationUrl: http://localhost:8080/oauth/token
+          scopes:
+            admin: Admin access
+            read_only: Read only access
+# Step 2 - apply security globally...
+paths:
+  /createCard:
+    patch:
+      summary: Add a new pet
+      security:
+        - oAuthSample:
+            - admin
+            - read_only
