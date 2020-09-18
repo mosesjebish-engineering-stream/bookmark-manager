@@ -44,7 +44,7 @@ public class GroupServiceImplTest {
     }
 
     @Test
-    public void when_fetchAll(){
+    public void fetchAll(){
         List<String> adminList = new ArrayList<>();
         adminList.add("TestUser");
         GroupDetailEntity groupDetailEntity = factory.manufacturePojo(GroupDetailEntity.class);
@@ -60,7 +60,7 @@ public class GroupServiceImplTest {
     }
 
     @Test
-    public void when_Persist(){
+    public void persist(){
         GroupDetailDto groupDetailDtoInput = factory.manufacturePojo(GroupDetailDto.class);
         List<GroupDetailDto> groupDetailDtoList = new ArrayList<>();
         groupDetailDtoList.add(groupDetailDtoInput);
@@ -75,7 +75,7 @@ public class GroupServiceImplTest {
     }
 
     @Test
-    public void when_findByGroupName(){
+    public void findByGroupName(){
         List<String> adminList = new ArrayList<>();
         adminList.add("TestUser");
         GroupDetailEntity groupDetailEntity = factory.manufacturePojo(GroupDetailEntity.class);
@@ -90,7 +90,7 @@ public class GroupServiceImplTest {
     }
 
     @Test
-    public void when_findByGroupNotFound(){
+    public void findByGroupNotFound(){
         Optional<GroupDetailEntity> entity = Optional.empty();
 
         doReturn(entity).when(dao).findByGroupName(anyString());
