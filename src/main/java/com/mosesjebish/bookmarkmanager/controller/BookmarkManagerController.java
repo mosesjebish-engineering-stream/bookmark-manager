@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/bookmarks")
-@CrossOrigin
 public class BookmarkManagerController {
 
     private final CardDetailService cardDetailService;
